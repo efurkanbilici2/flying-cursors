@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Flying Cursors!</title>
+    <style>
+      .remote-cursor {
+        width: 1rem;
+        height: 1rem;
+        position: absolute;
+        background-color: red;
+        border-radius: 50%;
+        pointer-events: none; /* Prevent the cursor from capturing mouse events */
+        transition: transform 0.05s ease-out; /* Smooth movement */
+        transform: translate(-50%, -50%);
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      const isProduction = false; // Set to true in production environment
+
+      class Logger {
+        static log(message, ...optionalParams) {
+          if (!isProduction) {
+            console.log("[INFO]:", message, ...optionalParams);
+          }
+        }
+
+        static warn(message, ...optionalParams) {
+          if (!isProduction) {
+            console.warn("[WARN]:", message, ...optionalParams);
+          }
+        }
+
+        static error(message, ...optionalParams) {
+          if (!isProduction) {
+            console.error("[ERROR]:", message, ...optionalParams);
+          }
+        }
+      }
+    </script>
+
+    <script>
+      const socket = new WebSocket("ws://localhost:3001");
+      const cursors = new Map();
+
+      const cursorElement = document.getElementById("cursor");
+
+      document.addEventListener("mousemove", (e) => {
+        const xPercent = (e.clientX / window.innerWidth) * 100;
+        const yPercent = (e.clientY / window.innerHeight) * 100;
+        socket.send(JSON.stringify({ xPercent, yPercent }));
+      });
+
+      socket.onmessage = (event) => {
+        const message = JSON.parse(event.data);
+
+        if (message.type === "disconnect") {
+          const cursorElement = cursors.get(message.id);
+          if (cursorElement) {
+            cursorElement.remove();
+            cursors.delete(message.id);
+            Logger.log(`Removed cursor for disconnected client ${message.id}`);
+          }
+        } else {
+          const { id, xPercent, yPercent } = message;
+
+          const xPos = (xPercent / 100) * window.innerWidth;
+          const yPos = (yPercent / 100) * window.innerHeight;
+
+          if (!cursors.has(id)) {
+            const cursorElement = document.createElement("div");
+            cursorElement.classList.add("remote-cursor");
+            cursorElement.style.backgroundColor = getRandomColor();
+            document.body.appendChild(cursorElement);
+            cursors.set(id, cursorElement);
+            Logger.log(`Created new cursor for client ${id}`);
+          }
+
+          const cursorElement = cursors.get(id);
+          cursorElement.style.transform = `translate(${xPos}px, ${yPos}px)`;
+        }
+      };
+
+      socket.onopen = () => {
+        Logger.log("Connected to WebSocket server");
+      };
+
+      socket.onerror = (error) => {
+        Logger.error("WebSocket error:", error);
+      };
+
+      socket.onclose = () => {
+        Logger.log("WebSocket connection closed");
+      };
+
+      function getRandomColor() {
+        return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+      }
+    </script>
+  </body>
+</html>

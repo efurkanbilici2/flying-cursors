@@ -11,6 +11,7 @@ This application enables real-time mouse cursor collaboration among connected cl
 - [Usage](#Usage)
 - [Contributing](#contributing)
 - [License](#license)
+- [Main Client File](#main-client-file)
 
 ## Features
 
@@ -61,7 +62,12 @@ Once the application is running, you can:
 - Open multiple browser windows or tabs to see the cursors of other connected clients.
 - Each client will see other client's cursors with non-unique colors.
 
+### Main Client File
+
+The main client file for the application is located at `client/index.html`. Make sure to navigate there to see the real-time collaboration in action.
+
 ### Logging
+
 To enable detailed logging, modify the `isProduction` constant in the client code to `false` during development.
 
 ## Contributing
@@ -76,4 +82,4 @@ Contributions are welcome! If you have suggestions for improvements or want to a
 
 ## Licence
 
-This project is licensed under the MIT License. You can find more details about this license at [https://opensource.org/licenses/MIT](https://opensource.org/licenses/MIT).
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

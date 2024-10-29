@@ -37,7 +37,7 @@ Make sure you have the following installed on your machine:
 - [Node.js](https://nodejs.org/en/) (v14 or higher)
 - [npm](https://www.npmjs.com/) (comes with Node.js)
 
-### Installation
+### Installation
 
 1. **Clonse this repo**:
 
@@ -66,7 +66,7 @@ Once the application is running, you can:
 
 The main client file for the application is located at `client/index.html`. Make sure to navigate there to see the real-time collaboration in action.
 
-### Logging
+### Logging
 
 To enable detailed logging, modify the `isProduction` constant in the client code to `false` during development.
 

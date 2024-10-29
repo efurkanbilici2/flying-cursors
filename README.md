@@ -9,9 +9,9 @@ This application enables real-time mouse cursor collaboration among connected cl
 - [Getting Started](#getting-started)
 - [Installation](#installation)
 - [Usage](#Usage)
+- [Main Client File](#main-client-file)
 - [Contributing](#contributing)
 - [License](#license)
-- [Main Client File](#main-client-file)
 
 ## Features
 

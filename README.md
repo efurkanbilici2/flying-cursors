@@ -2,7 +2,7 @@
 
 This application enables real-time mouse cursor collaboration among connected clients using WebSockets. Users can see each other's cursors in real-time, making it suitable for collaborative tools or shared environments.
 
-## Table of Contents
+## Table of Contents
 
 - [Features](#features)
 - [Technologies Used](#technologies-used)
